@@ -1,303 +1,286 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.AppleSystemUIFontMonospaced'}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.AppleSystemUIFontMonospaced'; min-height: 15.0px}
-    span.s1 {font: 12.0px Menlo}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telavox Brand Asset Validator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #F5F5F7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 32px 16px; min-height: 100vh; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Telavox Brand Asset Validator&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body { background: #F5F5F7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 32px 16px; min-height: 100vh; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="root"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script type="text/babel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const { useState, useRef, useCallback } = React;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>const ASSET_TYPES = [</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: "app_logo_ios", label: "App Logo – iOS", sublabel: "iOS App Icon", section: "mobile",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>color: "#007AFF", bg: "#EBF4FF", resizeTo: 1024,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>requirements: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "size", label: "Size", spec: "1024 × 1024 px", check: (w, h) =&gt; w === 1024 &amp;&amp; h === 1024, tip: "Must be exactly 1024×1024 pixels." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "format", label: "Format", spec: "PNG or JPG", check: (_, __, f) =&gt; ["image/png","image/jpeg"].includes(f.type), tip: "Must be PNG or JPG." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "square", label: "Square", spec: "Equal width &amp; height", check: (w, h) =&gt; w === h, tip: "Width and height must be equal." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "alpha", label: "No Transparency", spec: "Fully opaque", check: (_, __, ___, a) =&gt; !a, tip: "No transparency allowed. Icon must be fully opaque." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "norounded", label: "No Rounded Corners", spec: "Square corners only", check: () =&gt; null, tip: "Do not add rounded corners — the OS applies them automatically." },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">      </span>},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: "app_logo_android", label: "App Logo – Android", sublabel: "Android App Icon", section: "mobile",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>color: "#34A853", bg: "#EAFAF0", svgOnly: true,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>requirements: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "format", label: "Format", spec: "SVG", check: (_, __, f) =&gt; f.type === "image/svg+xml" || f.name?.endsWith(".svg"), tip: "Android app icon must be an SVG file." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "alpha", label: "No Transparency", spec: "Fully opaque", check: (_, __, ___, a) =&gt; !a, tip: "No transparency allowed." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "norounded", label: "No Rounded Corners", spec: "Square corners only", check: () =&gt; null, tip: "Do not add rounded corners — the OS applies them automatically." },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">      </span>},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: "signin_logo", label: "Signin Logo", sublabel: "iOS &amp; Android, light/dark mode", section: "mobile",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>color: "#8E44AD", bg: "#F5EEF8",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>note: "Upload separate versions for iOS light, iOS dark, Android light, and Android dark.",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>requirements: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "width", label: "Max Width", spec: "≤ 825 px", check: (w) =&gt; w &lt;= 825, tip: "Width must not exceed 825 pixels." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "height", label: "Max Height", spec: "≤ 90 px", check: (_, h) =&gt; h &lt;= 90, tip: "Height must not exceed 90 pixels." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "format", label: "Format", spec: "PNG", check: (_, __, f) =&gt; f.type === "image/png", tip: "Must be a PNG file." },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">      </span>},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: "callkit_logo", label: "Call Kit Logo", sublabel: "iOS only — typically created by Telavox", section: "mobile",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>color: "#E67E22", bg: "#FEF9F0", resizeTo: 120,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>note: "Typically created by Telavox — only upload if providing your own.",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>requirements: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "size", label: "Size", spec: "120 × 120 px", check: (w, h) =&gt; w === 120 &amp;&amp; h === 120, tip: "Must be exactly 120×120 pixels." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "format", label: "Format", spec: "PNG", check: (_, __, f) =&gt; f.type === "image/png", tip: "Must be a PNG file." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "square", label: "Square", spec: "Equal width &amp; height", check: (w, h) =&gt; w === h, tip: "Width and height must be equal." },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">      </span>},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: "desktop_mac", label: "Desktop Logo – Mac", sublabel: "macOS app icon", section: "desktop",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>color: "#555E6E", bg: "#F2F3F5", resizeTo: 512, filenameHint: "icon-[brandname]-mac.png",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>requirements: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "size", label: "Size", spec: "512 × 512 px", check: (w, h) =&gt; w === 512 &amp;&amp; h === 512, tip: "Must be exactly 512×512 pixels." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "format", label: "Format", spec: "PNG", check: (_, __, f) =&gt; f.type === "image/png", tip: "Must be a PNG file." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "square", label: "Square", spec: "Equal width &amp; height", check: (w, h) =&gt; w === h, tip: "Width and height must be equal." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "rounded", label: "Rounded Corners", spec: "Required for Mac", check: () =&gt; null, tip: "Mac icons must have rounded corners applied before upload." },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">      </span>},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: "desktop_windows", label: "Desktop Logo – Windows", sublabel: "Windows app icon", section: "desktop",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>color: "#0078D4", bg: "#EBF4FF", icoOnly: true, filenameHint: "icon-[brandname]-windows.ico",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>requirements: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "format", label: "Format", spec: "ICO", check: (_, __, f) =&gt; f.type === "image/x-icon" || f.type === "image/vnd.microsoft.icon" || f.name?.endsWith(".ico"), tip: "Must be an ICO file." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "sizes", label: "Embedded Sizes", spec: "256, 48, 32, 24, 16 px", check: () =&gt; null, tip: "ICO must contain all 5 sizes: 256×256, 48×48, 32×32, 24×24, 16×16. Verify in your icon editor." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "square", label: "Square Corners", spec: "No rounded corners", check: () =&gt; null, tip: "Windows icons use square corners — do not add rounding." },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">      </span>},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{</p>
-<p class="p1"><span class="Apple-converted-space">        </span>id: "small_logo", label: "Small Logo", sublabel: "Desktop — SVG, 24×24 viewBox", section: "desktop",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>color: "#C0392B", bg: "#FDEDEC", svgOnly: true,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>requirements: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "format", label: "Format", spec: "SVG", check: (_, __, f) =&gt; f.type === "image/svg+xml" || f.name?.endsWith(".svg"), tip: "Must be an SVG file." },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ id: "viewbox", label: "ViewBox", spec: "24 × 24 px", check: () =&gt; null, tip: "SVG viewBox must be set to '0 0 24 24'. Check in a text editor or design tool." },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">      </span>},</p>
-<p class="p1"><span class="Apple-converted-space">    </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>const SECTIONS = [</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ id: "mobile", label: "📱 Mobile App", color: "#007AFF" },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ id: "desktop", label: "🖥️ Desktop App", color: "#555E6E" },</p>
-<p class="p1"><span class="Apple-converted-space">    </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function hasAlphaChannel(canvas, ctx) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>for (let i = 3; i &lt; data.length; i += 4) if (data[i] &lt; 255) return true;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return false;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function resizeImage(img, size, removeAlpha) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const canvas = document.createElement("canvas");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>canvas.width = size; canvas.height = size;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ctx = canvas.getContext("2d");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (removeAlpha) { ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, size, size); }</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const srcMin = Math.min(img.naturalWidth, img.naturalHeight);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const sx = (img.naturalWidth - srcMin) / 2, sy = (img.naturalHeight - srcMin) / 2;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>ctx.drawImage(img, sx, sy, srcMin, srcMin, 0, 0, size, size);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return canvas;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function StatusBadge({ result }) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (result === null) return &lt;span className="badge" style={{background:"#FFF3CD",color:"#856404",border:"1px solid #FFEAA7"}}&gt;⚠ Manual&lt;/span&gt;;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return result</p>
-<p class="p1"><span class="Apple-converted-space">        </span>? &lt;span className="badge" style={{background:"#D4EDDA",color:"#155724",border:"1px solid #C3E6CB"}}&gt;✓ Pass&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>: &lt;span className="badge" style={{background:"#F8D7DA",color:"#721C24",border:"1px solid #F5C6CB"}}&gt;✗ Fail&lt;/span&gt;;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function UploadZone({ assetType, onFile }) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const [dragging, setDragging] = useState(false);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ref = useRef();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const accept = assetType.svgOnly ? ".svg,image/svg+xml" : assetType.icoOnly ? ".ico,image/x-icon,image/vnd.microsoft.icon" : "image/*";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const hint = assetType.svgOnly ? "SVG only" : assetType.icoOnly ? "ICO only" : "PNG, JPG accepted";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return (</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div</p>
-<p class="p1"><span class="Apple-converted-space">          </span>onDragOver={e=&gt;{e.preventDefault();setDragging(true)}}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>onDragLeave={()=&gt;setDragging(false)}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>onDrop={e=&gt;{e.preventDefault();setDragging(false);const f=e.dataTransfer.files[0];if(f)onFile(f);}}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>onClick={()=&gt;ref.current.click()}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>style={{border:`2px dashed ${dragging?assetType.color:"#CBD5E0"}`,borderRadius:10,background:dragging?assetType.bg:"#fafafa",padding:"18px 12px",textAlign:"center",cursor:"pointer",transition:"all 0.2s"}}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style={{fontSize:28,marginBottom:4}}&gt;📁&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style={{fontSize:13,color:"#555"}}&gt;Drop file or &lt;span style={{color:assetType.color,fontWeight:600}}&gt;browse&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style={{fontSize:11,color:"#999",marginTop:2}}&gt;{hint}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{assetType.filenameHint &amp;&amp; &lt;div style={{fontSize:11,color:"#aaa",marginTop:2}}&gt;Expected: &lt;code&gt;{assetType.filenameHint}&lt;/code&gt;&lt;/div&gt;}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input ref={ref} type="file" accept={accept} style={{display:"none"}} onChange={e=&gt;onFile(e.target.files[0])} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function AssetCard({ assetType }) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const [file, setFile] = useState(null);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const [preview, setPreview] = useState(null);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const [meta, setMeta] = useState(null);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const [imgEl, setImgEl] = useState(null);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const [hasAlpha, setHasAlpha] = useState(false);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const [results, setResults] = useState(null);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const { color, bg, label, sublabel, requirements, resizeTo, note, svgOnly, icoOnly } = assetType;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const processFile = useCallback((f) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>setFile(f);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (svgOnly || icoOnly) {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>setPreview(null);</p>
-<p class="p1"><span class="Apple-converted-space">          </span>setMeta({ width: "—", height: "—", sizeKB: (f.size/1024).toFixed(1) });</p>
-<p class="p1"><span class="Apple-converted-space">          </span>setResults(requirements.map(req =&gt; ({ ...req, result: req.check(0, 0, f, false) })));</p>
-<p class="p1"><span class="Apple-converted-space">          </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const reader = new FileReader();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>reader.onload = (e) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const dataUrl = e.target.result;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>setPreview(dataUrl);</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const img = new Image();</p>
-<p class="p1"><span class="Apple-converted-space">          </span>img.onload = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const w = img.naturalWidth, h = img.naturalHeight;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const canvas = document.createElement("canvas");</p>
-<p class="p1"><span class="Apple-converted-space">            </span>canvas.width = w; canvas.height = h;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const ctx = canvas.getContext("2d");</p>
-<p class="p1"><span class="Apple-converted-space">            </span>ctx.drawImage(img, 0, 0);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const alpha = hasAlphaChannel(canvas, ctx);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>setHasAlpha(alpha);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>setImgEl(img);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>setMeta({ width: w, height: h, sizeKB: (f.size/1024).toFixed(1) });</p>
-<p class="p1"><span class="Apple-converted-space">            </span>setResults(requirements.map(req =&gt; ({ ...req, result: req.check(w, h, f, alpha) })));</p>
-<p class="p1"><span class="Apple-converted-space">          </span>};</p>
-<p class="p1"><span class="Apple-converted-space">          </span>img.src = dataUrl;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">        </span>reader.readAsDataURL(f);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}, [requirements, svgOnly, icoOnly]);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const handleDownload = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (!resizeTo || !imgEl) return;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const canvas = resizeImage(imgEl, resizeTo, hasAlpha);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>canvas.toBlob(blob =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const a = document.createElement("a");</p>
-<p class="p1"><span class="Apple-converted-space">          </span>a.href = URL.createObjectURL(blob);</p>
-<p class="p1"><span class="Apple-converted-space">          </span>a.download = `${assetType.id}_${resizeTo}x${resizeTo}.png`;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>a.click();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}, "image/png");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const checkable = results?.filter(r =&gt; r.result !== null) ?? [];</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const allPass = checkable.length &gt; 0 &amp;&amp; checkable.every(r =&gt; r.result === true);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const fails = results?.filter(r =&gt; r.result === false).length ?? 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const passes = results?.filter(r =&gt; r.result === true).length ?? 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const needsResize = resizeTo &amp;&amp; results?.find(r =&gt; r.id === "size")?.result === false;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const needsAlphaFix = results?.find(r =&gt; r.id === "alpha")?.result === false;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>return (</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style={{border:`2px solid ${color}`,borderRadius:12,overflow:"hidden",marginBottom:16}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style={{background:color,padding:"10px 16px",display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;span style={{color:"#fff",fontWeight:700,fontSize:15}}&gt;{label}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;span style={{color:"rgba(255,255,255,0.75)",fontSize:12,marginLeft:8}}&gt;{sublabel}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{results &amp;&amp; &lt;span style={{marginLeft:"auto",color:"#fff",fontSize:12}}&gt;{passes} pass · {fails} fail&lt;/span&gt;}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style={{background:bg,padding:14}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{note &amp;&amp; &lt;div style={{fontSize:12,color:"#666",background:"rgba(0,0,0,0.05)",borderRadius:6,padding:"6px 10px",marginBottom:12}}&gt;{note}&lt;/div&gt;}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{!file ? (</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;UploadZone assetType={assetType} onFile={processFile} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>) : (</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12,background:"#fff",borderRadius:8,padding:10}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>{preview</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>? &lt;img src={preview} alt="preview" style={{width:52,height:52,borderRadius:6,objectFit:"cover",border:"1px solid #eee"}} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>: &lt;div style={{width:52,height:52,borderRadius:6,background:"#f0f0f0",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}&gt;{icoOnly?"🪟":"📄"}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div style={{flex:1}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div style={{fontWeight:600,fontSize:13,marginBottom:1}}&gt;{file.name}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div style={{color:"#888",fontSize:12}}&gt;{meta?.width} × {meta?.height} px · {meta?.sizeKB} KB · {file.type||"unknown"}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;button onClick={()=&gt;{setFile(null);setPreview(null);setMeta(null);setResults(null);setImgEl(null);}} style={{background:"none",border:"1px solid #ddd",borderRadius:6,padding:"4px 10px",cursor:"pointer",fontSize:12,color:"#666"}}&gt;<span class="s1">✕</span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>{results?.map((r, i) =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"7px 0",borderBottom:i&lt;results.length-1?"1px solid rgba(0,0,0,0.07)":"none"}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;StatusBadge result={r.result} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div style={{flex:1}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span style={{fontWeight:600,fontSize:13}}&gt;{r.label}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span style={{fontWeight:400,color:"#666",fontSize:12}}&gt; — {r.spec}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>{r.result === false &amp;&amp; &lt;div style={{fontSize:12,color:"#721C24",marginTop:2}}&gt;{r.tip}&lt;/div&gt;}</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>{r.result === null &amp;&amp; &lt;div style={{fontSize:12,color:"#856404",marginTop:2}}&gt;{r.tip}&lt;/div&gt;}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>{!svgOnly &amp;&amp; !icoOnly &amp;&amp; resizeTo &amp;&amp; (</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div style={{marginTop:12,paddingTop:10,borderTop:"1px solid rgba(0,0,0,0.1)"}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>{allPass</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>? &lt;div style={{display:"flex",alignItems:"center",gap:10}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                          </span>&lt;span style={{fontSize:13,color:"#155724",fontWeight:600}}&gt;✓ Ready to upload&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                          </span>&lt;button onClick={handleDownload} style={{background:color,color:"#fff",border:"none",borderRadius:7,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:600}}&gt;⬇ Download {resizeTo}×{resizeTo} PNG&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>: (needsResize || needsAlphaFix)</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>? &lt;button onClick={handleDownload} style={{background:color,color:"#fff",border:"none",borderRadius:7,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:600}}&gt;✨ Auto-fix &amp; Download {resizeTo}×{resizeTo} PNG&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>: null</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>)}</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>)}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function App() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return (</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style={{maxWidth:620,margin:"0 auto"}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style={{textAlign:"center",marginBottom:28}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;div style={{fontSize:13,fontWeight:600,color:"#007AFF",textTransform:"uppercase",letterSpacing:1,marginBottom:4}}&gt;Telavox Partner Portal&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;h1 style={{fontSize:24,fontWeight:700,marginBottom:6}}&gt;Brand Asset Validator&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;p style={{color:"#666",fontSize:14}}&gt;Validate mobile and desktop assets against Telavox's branding requirements&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{SECTIONS.map(section =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;div key={section.id} style={{marginBottom:28}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;h2 style={{fontSize:17,fontWeight:700,margin:0,color:section.color}}&gt;{section.label}&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div style={{flex:1,height:2,background:`${section.color}22`,borderRadius:2}} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>{ASSET_TYPES.filter(a =&gt; a.section === section.id).map(a =&gt; &lt;AssetCard key={a.id} assetType={a} /&gt;)}</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style={{background:"#fff",borderRadius:12,padding:14,fontSize:12,color:"#888",border:"1px solid #eee",marginBottom:32}}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;strong style={{color:"#555"}}&gt;Note:&lt;/strong&gt; All validation happens in your browser — no files are uploaded anywhere. Once validated, submit assets via the &lt;a href="https://partner.telavox.se/partner2/administration/brandingmanagementadministration.js" target="_blank" rel="noreferrer" style={{color:"#007AFF"}}&gt;Telavox Partner Portal&lt;/a&gt;.</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>ReactDOM.render(&lt;App /&gt;, document.getElementById("root"));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useRef, useCallback } = React;
+
+    const ASSET_TYPES = [
+      {
+        id: "app_logo_ios", label: "App Logo – iOS", sublabel: "iOS App Icon", section: "mobile",
+        color: "#007AFF", bg: "#EBF4FF", resizeTo: 1024,
+        requirements: [
+          { id: "size", label: "Size", spec: "1024 × 1024 px", check: (w, h) => w === 1024 && h === 1024, tip: "Must be exactly 1024×1024 pixels." },
+          { id: "format", label: "Format", spec: "PNG or JPG", check: (_, __, f) => ["image/png","image/jpeg"].includes(f.type), tip: "Must be PNG or JPG." },
+          { id: "square", label: "Square", spec: "Equal width & height", check: (w, h) => w === h, tip: "Width and height must be equal." },
+          { id: "alpha", label: "No Transparency", spec: "Fully opaque", check: (_, __, ___, a) => !a, tip: "No transparency allowed. Icon must be fully opaque." },
+          { id: "norounded", label: "No Rounded Corners", spec: "Square corners only", check: () => null, tip: "Do not add rounded corners — the OS applies them automatically." },
+        ],
+      },
+      {
+        id: "app_logo_android", label: "App Logo – Android", sublabel: "Android App Icon", section: "mobile",
+        color: "#34A853", bg: "#EAFAF0", svgOnly: true,
+        requirements: [
+          { id: "format", label: "Format", spec: "SVG", check: (_, __, f) => f.type === "image/svg+xml" || f.name?.endsWith(".svg"), tip: "Android app icon must be an SVG file." },
+          { id: "alpha", label: "No Transparency", spec: "Fully opaque", check: (_, __, ___, a) => !a, tip: "No transparency allowed." },
+          { id: "norounded", label: "No Rounded Corners", spec: "Square corners only", check: () => null, tip: "Do not add rounded corners — the OS applies them automatically." },
+        ],
+      },
+      {
+        id: "signin_logo", label: "Signin Logo", sublabel: "iOS & Android, light/dark mode", section: "mobile",
+        color: "#8E44AD", bg: "#F5EEF8",
+        note: "Upload separate versions for iOS light, iOS dark, Android light, and Android dark.",
+        requirements: [
+          { id: "width", label: "Max Width", spec: "≤ 825 px", check: (w) => w <= 825, tip: "Width must not exceed 825 pixels." },
+          { id: "height", label: "Max Height", spec: "≤ 90 px", check: (_, h) => h <= 90, tip: "Height must not exceed 90 pixels." },
+          { id: "format", label: "Format", spec: "PNG", check: (_, __, f) => f.type === "image/png", tip: "Must be a PNG file." },
+        ],
+      },
+      {
+        id: "callkit_logo", label: "Call Kit Logo", sublabel: "iOS only — typically created by Telavox", section: "mobile",
+        color: "#E67E22", bg: "#FEF9F0", resizeTo: 120,
+        note: "Typically created by Telavox — only upload if providing your own.",
+        requirements: [
+          { id: "size", label: "Size", spec: "120 × 120 px", check: (w, h) => w === 120 && h === 120, tip: "Must be exactly 120×120 pixels." },
+          { id: "format", label: "Format", spec: "PNG", check: (_, __, f) => f.type === "image/png", tip: "Must be a PNG file." },
+          { id: "square", label: "Square", spec: "Equal width & height", check: (w, h) => w === h, tip: "Width and height must be equal." },
+        ],
+      },
+      {
+        id: "desktop_mac", label: "Desktop Logo – Mac", sublabel: "macOS app icon", section: "desktop",
+        color: "#555E6E", bg: "#F2F3F5", resizeTo: 512, filenameHint: "icon-[brandname]-mac.png",
+        requirements: [
+          { id: "size", label: "Size", spec: "512 × 512 px", check: (w, h) => w === 512 && h === 512, tip: "Must be exactly 512×512 pixels." },
+          { id: "format", label: "Format", spec: "PNG", check: (_, __, f) => f.type === "image/png", tip: "Must be a PNG file." },
+          { id: "square", label: "Square", spec: "Equal width & height", check: (w, h) => w === h, tip: "Width and height must be equal." },
+          { id: "rounded", label: "Rounded Corners", spec: "Required for Mac", check: () => null, tip: "Mac icons must have rounded corners applied before upload." },
+        ],
+      },
+      {
+        id: "desktop_windows", label: "Desktop Logo – Windows", sublabel: "Windows app icon", section: "desktop",
+        color: "#0078D4", bg: "#EBF4FF", icoOnly: true, filenameHint: "icon-[brandname]-windows.ico",
+        requirements: [
+          { id: "format", label: "Format", spec: "ICO", check: (_, __, f) => f.type === "image/x-icon" || f.type === "image/vnd.microsoft.icon" || f.name?.endsWith(".ico"), tip: "Must be an ICO file." },
+          { id: "sizes", label: "Embedded Sizes", spec: "256, 48, 32, 24, 16 px", check: () => null, tip: "ICO must contain all 5 sizes: 256×256, 48×48, 32×32, 24×24, 16×16. Verify in your icon editor." },
+          { id: "square", label: "Square Corners", spec: "No rounded corners", check: () => null, tip: "Windows icons use square corners — do not add rounding." },
+        ],
+      },
+      {
+        id: "small_logo", label: "Small Logo", sublabel: "Desktop — SVG, 24×24 viewBox", section: "desktop",
+        color: "#C0392B", bg: "#FDEDEC", svgOnly: true,
+        requirements: [
+          { id: "format", label: "Format", spec: "SVG", check: (_, __, f) => f.type === "image/svg+xml" || f.name?.endsWith(".svg"), tip: "Must be an SVG file." },
+          { id: "viewbox", label: "ViewBox", spec: "24 × 24 px", check: () => null, tip: "SVG viewBox must be set to '0 0 24 24'. Check in a text editor or design tool." },
+        ],
+      },
+    ];
+
+    const SECTIONS = [
+      { id: "mobile", label: "📱 Mobile App", color: "#007AFF" },
+      { id: "desktop", label: "🖥️ Desktop App", color: "#555E6E" },
+    ];
+
+    function hasAlphaChannel(canvas, ctx) {
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      for (let i = 3; i < data.length; i += 4) if (data[i] < 255) return true;
+      return false;
+    }
+
+    function resizeImage(img, size, removeAlpha) {
+      const canvas = document.createElement("canvas");
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      if (removeAlpha) { ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, size, size); }
+      const srcMin = Math.min(img.naturalWidth, img.naturalHeight);
+      const sx = (img.naturalWidth - srcMin) / 2, sy = (img.naturalHeight - srcMin) / 2;
+      ctx.drawImage(img, sx, sy, srcMin, srcMin, 0, 0, size, size);
+      return canvas;
+    }
+
+    function StatusBadge({ result }) {
+      if (result === null) return <span className="badge" style={{background:"#FFF3CD",color:"#856404",border:"1px solid #FFEAA7"}}>⚠ Manual</span>;
+      return result
+        ? <span className="badge" style={{background:"#D4EDDA",color:"#155724",border:"1px solid #C3E6CB"}}>✓ Pass</span>
+        : <span className="badge" style={{background:"#F8D7DA",color:"#721C24",border:"1px solid #F5C6CB"}}>✗ Fail</span>;
+    }
+
+    function UploadZone({ assetType, onFile }) {
+      const [dragging, setDragging] = useState(false);
+      const ref = useRef();
+      const accept = assetType.svgOnly ? ".svg,image/svg+xml" : assetType.icoOnly ? ".ico,image/x-icon,image/vnd.microsoft.icon" : "image/*";
+      const hint = assetType.svgOnly ? "SVG only" : assetType.icoOnly ? "ICO only" : "PNG, JPG accepted";
+      return (
+        <div
+          onDragOver={e=>{e.preventDefault();setDragging(true)}}
+          onDragLeave={()=>setDragging(false)}
+          onDrop={e=>{e.preventDefault();setDragging(false);const f=e.dataTransfer.files[0];if(f)onFile(f);}}
+          onClick={()=>ref.current.click()}
+          style={{border:`2px dashed ${dragging?assetType.color:"#CBD5E0"}`,borderRadius:10,background:dragging?assetType.bg:"#fafafa",padding:"18px 12px",textAlign:"center",cursor:"pointer",transition:"all 0.2s"}}
+        >
+          <div style={{fontSize:28,marginBottom:4}}>📁</div>
+          <div style={{fontSize:13,color:"#555"}}>Drop file or <span style={{color:assetType.color,fontWeight:600}}>browse</span></div>
+          <div style={{fontSize:11,color:"#999",marginTop:2}}>{hint}</div>
+          {assetType.filenameHint && <div style={{fontSize:11,color:"#aaa",marginTop:2}}>Expected: <code>{assetType.filenameHint}</code></div>}
+          <input ref={ref} type="file" accept={accept} style={{display:"none"}} onChange={e=>onFile(e.target.files[0])} />
+        </div>
+      );
+    }
+
+    function AssetCard({ assetType }) {
+      const [file, setFile] = useState(null);
+      const [preview, setPreview] = useState(null);
+      const [meta, setMeta] = useState(null);
+      const [imgEl, setImgEl] = useState(null);
+      const [hasAlpha, setHasAlpha] = useState(false);
+      const [results, setResults] = useState(null);
+      const { color, bg, label, sublabel, requirements, resizeTo, note, svgOnly, icoOnly } = assetType;
+
+      const processFile = useCallback((f) => {
+        setFile(f);
+        if (svgOnly || icoOnly) {
+          setPreview(null);
+          setMeta({ width: "—", height: "—", sizeKB: (f.size/1024).toFixed(1) });
+          setResults(requirements.map(req => ({ ...req, result: req.check(0, 0, f, false) })));
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const dataUrl = e.target.result;
+          setPreview(dataUrl);
+          const img = new Image();
+          img.onload = () => {
+            const w = img.naturalWidth, h = img.naturalHeight;
+            const canvas = document.createElement("canvas");
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            const alpha = hasAlphaChannel(canvas, ctx);
+            setHasAlpha(alpha);
+            setImgEl(img);
+            setMeta({ width: w, height: h, sizeKB: (f.size/1024).toFixed(1) });
+            setResults(requirements.map(req => ({ ...req, result: req.check(w, h, f, alpha) })));
+          };
+          img.src = dataUrl;
+        };
+        reader.readAsDataURL(f);
+      }, [requirements, svgOnly, icoOnly]);
+
+      const handleDownload = () => {
+        if (!resizeTo || !imgEl) return;
+        const canvas = resizeImage(imgEl, resizeTo, hasAlpha);
+        canvas.toBlob(blob => {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `${assetType.id}_${resizeTo}x${resizeTo}.png`;
+          a.click();
+        }, "image/png");
+      };
+
+      const checkable = results?.filter(r => r.result !== null) ?? [];
+      const allPass = checkable.length > 0 && checkable.every(r => r.result === true);
+      const fails = results?.filter(r => r.result === false).length ?? 0;
+      const passes = results?.filter(r => r.result === true).length ?? 0;
+      const needsResize = resizeTo && results?.find(r => r.id === "size")?.result === false;
+      const needsAlphaFix = results?.find(r => r.id === "alpha")?.result === false;
+
+      return (
+        <div style={{border:`2px solid ${color}`,borderRadius:12,overflow:"hidden",marginBottom:16}}>
+          <div style={{background:color,padding:"10px 16px",display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+            <div>
+              <span style={{color:"#fff",fontWeight:700,fontSize:15}}>{label}</span>
+              <span style={{color:"rgba(255,255,255,0.75)",fontSize:12,marginLeft:8}}>{sublabel}</span>
+            </div>
+            {results && <span style={{marginLeft:"auto",color:"#fff",fontSize:12}}>{passes} pass · {fails} fail</span>}
+          </div>
+          <div style={{background:bg,padding:14}}>
+            {note && <div style={{fontSize:12,color:"#666",background:"rgba(0,0,0,0.05)",borderRadius:6,padding:"6px 10px",marginBottom:12}}>{note}</div>}
+            {!file ? (
+              <UploadZone assetType={assetType} onFile={processFile} />
+            ) : (
+              <>
+                <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12,background:"#fff",borderRadius:8,padding:10}}>
+                  {preview
+                    ? <img src={preview} alt="preview" style={{width:52,height:52,borderRadius:6,objectFit:"cover",border:"1px solid #eee"}} />
+                    : <div style={{width:52,height:52,borderRadius:6,background:"#f0f0f0",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>{icoOnly?"🪟":"📄"}</div>
+                  }
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:600,fontSize:13,marginBottom:1}}>{file.name}</div>
+                    <div style={{color:"#888",fontSize:12}}>{meta?.width} × {meta?.height} px · {meta?.sizeKB} KB · {file.type||"unknown"}</div>
+                  </div>
+                  <button onClick={()=>{setFile(null);setPreview(null);setMeta(null);setResults(null);setImgEl(null);}} style={{background:"none",border:"1px solid #ddd",borderRadius:6,padding:"4px 10px",cursor:"pointer",fontSize:12,color:"#666"}}>✕</button>
+                </div>
+                {results?.map((r, i) => (
+                  <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"7px 0",borderBottom:i<results.length-1?"1px solid rgba(0,0,0,0.07)":"none"}}>
+                    <StatusBadge result={r.result} />
+                    <div style={{flex:1}}>
+                      <span style={{fontWeight:600,fontSize:13}}>{r.label}</span>
+                      <span style={{fontWeight:400,color:"#666",fontSize:12}}> — {r.spec}</span>
+                      {r.result === false && <div style={{fontSize:12,color:"#721C24",marginTop:2}}>{r.tip}</div>}
+                      {r.result === null && <div style={{fontSize:12,color:"#856404",marginTop:2}}>{r.tip}</div>}
+                    </div>
+                  </div>
+                ))}
+                {!svgOnly && !icoOnly && resizeTo && (
+                  <div style={{marginTop:12,paddingTop:10,borderTop:"1px solid rgba(0,0,0,0.1)"}}>
+                    {allPass
+                      ? <div style={{display:"flex",alignItems:"center",gap:10}}>
+                          <span style={{fontSize:13,color:"#155724",fontWeight:600}}>✓ Ready to upload</span>
+                          <button onClick={handleDownload} style={{background:color,color:"#fff",border:"none",borderRadius:7,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:600}}>⬇ Download {resizeTo}×{resizeTo} PNG</button>
+                        </div>
+                      : (needsResize || needsAlphaFix)
+                        ? <button onClick={handleDownload} style={{background:color,color:"#fff",border:"none",borderRadius:7,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:600}}>✨ Auto-fix & Download {resizeTo}×{resizeTo} PNG</button>
+                        : null
+                    }
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div>
+          <div style={{maxWidth:620,margin:"0 auto"}}>
+            <div style={{textAlign:"center",marginBottom:28}}>
+              <div style={{fontSize:13,fontWeight:600,color:"#007AFF",textTransform:"uppercase",letterSpacing:1,marginBottom:4}}>Telavox Partner Portal</div>
+              <h1 style={{fontSize:24,fontWeight:700,marginBottom:6}}>Brand Asset Validator</h1>
+              <p style={{color:"#666",fontSize:14}}>Validate mobile and desktop assets against Telavox's branding requirements</p>
+            </div>
+            {SECTIONS.map(section => (
+              <div key={section.id} style={{marginBottom:28}}>
+                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+                  <h2 style={{fontSize:17,fontWeight:700,margin:0,color:section.color}}>{section.label}</h2>
+                  <div style={{flex:1,height:2,background:`${section.color}22`,borderRadius:2}} />
+                </div>
+                {ASSET_TYPES.filter(a => a.section === section.id).map(a => <AssetCard key={a.id} assetType={a} />)}
+              </div>
+            ))}
+            <div style={{background:"#fff",borderRadius:12,padding:14,fontSize:12,color:"#888",border:"1px solid #eee",marginBottom:32}}>
+              <strong style={{color:"#555"}}>Note:</strong> All validation happens in your browser — no files are uploaded anywhere. Once validated, submit assets via the <a href="https://partner.telavox.se/partner2/administration/brandingmanagementadministration.js" target="_blank" rel="noreferrer" style={{color:"#007AFF"}}>Telavox Partner Portal</a>.
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
 </body>
 </html>
