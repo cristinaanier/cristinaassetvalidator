@@ -1,0 +1,2 @@
+# cristinaassetvalidator
+Branding asssets validator
